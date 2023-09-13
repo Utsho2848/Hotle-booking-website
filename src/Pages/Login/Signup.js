@@ -1,22 +1,26 @@
 import React, { useContext } from 'react'
 
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import PrimaryButton from '../../Components/Button/PrimaryButton'
 import { AuthContext } from '../../contexts/AuthProvider'
+import toast from 'react-hot-toast'
+import SmallSpinner from '../../Components/Spinner/SmallSpinner'
 
 const Signup = () => {
 
-  const { createUser, updateUserProfile, verifyEmail, setLoading } = useContext(AuthContext)
+  const { createUser, updateUserProfile, verifyEmail, loading, setLoading, signInWithGoogle } = useContext(AuthContext)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const from = location.state?.pathName || '/'
   const handleSubmit = event => {
     event.preventDefault()
 
     const name = event.target.name.value;
-    const image = event.target.image.files[0];
     const email = event.target.email.value;
     const password = event.target.password.value;
-    return console.log(image)
 
     // image upload in imgbb
+    const image = event.target.image.files[0];
     const formData = new FormData()
     formData.append('image', image)
 
@@ -26,10 +30,32 @@ const Signup = () => {
       body: formData,
     })
       .then(res => res.json())
-      .then(data => console.log(data))
-    console.log(formData)
-    // create User
-    // createUser(email, password).then(result => console.log(result))
+      .then(imageData => {
+        console.log(imageData.data.display_url)
+        // create User
+        createUser(email, password)
+          .then(result => {
+            updateUserProfile(name, imageData.data.display_url)
+              .then(
+                verifyEmail().then(() => {
+                  toast.success('Please check your email for verification link')
+                  navigate(from, { replace: true })
+                })
+              )
+              .catch(err => console.log(err))
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+
+      )
+      .catch(err => console.log(err))
+
+  }
+  // google sign in
+  const handleGoogleSignIn = () => {
+    signInWithGoogle().then(res => navigate(from, { replace: true }))
   }
   return (
     <div className='flex justify-center items-center pt-8'>
@@ -107,7 +133,7 @@ const Signup = () => {
                 type='submit'
                 classes='w-full px-8 py-3 font-semibold rounded-md bg-gray-900 hover:bg-gray-700 hover:text-white text-gray-100'
               >
-                Sign up
+                Sign Up
               </PrimaryButton>
             </div>
           </div>
@@ -120,7 +146,7 @@ const Signup = () => {
           <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
         </div>
         <div className='flex justify-center space-x-4'>
-          <button aria-label='Log in with Google' className='p-3 rounded-sm'>
+          <button onClick={handleGoogleSignIn} aria-label='Log in with Google' className='p-3 rounded-sm'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               viewBox='0 0 32 32'
