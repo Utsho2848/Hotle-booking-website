@@ -4,6 +4,7 @@ import PrimaryButton from '../../Components/Button/PrimaryButton'
 import { AuthContext } from '../../contexts/AuthProvider'
 import toast from 'react-hot-toast'
 import SmallSpinner from '../../Components/Spinner/SmallSpinner'
+import { setAuthToken } from '../../api/auth'
 
 
 const Login = () => {
@@ -22,6 +23,8 @@ const Login = () => {
 
     signin(email, password).then(result => {
       toast.success("Login successfull...!!")
+      // Get token
+      setAuthToken(result.user)
       navigate(from, { replace: true })
     })
       .catch(err => {
@@ -31,7 +34,11 @@ const Login = () => {
   }
   // google sign in
   const handleGoogleSignIn = () => {
-    signInWithGoogle().then(res => navigate(from, { replace: true }))
+    signInWithGoogle().then(result => {
+      // Get token
+      setAuthToken(result.user)
+      navigate(from, { replace: true })
+    })
   }
   // password reset
   const handleResetPassword = () => {
