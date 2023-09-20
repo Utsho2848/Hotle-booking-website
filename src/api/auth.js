@@ -2,8 +2,7 @@ export const setAuthToken = user => {
     const currentUser = {
         email: user.email,
     }
-    const aaa = "http://localhost:5000"
-    console.log(aaa)
+
     // save user and get token
     fetch(`http://localhost:5000/user/${user?.email}`,
         {
