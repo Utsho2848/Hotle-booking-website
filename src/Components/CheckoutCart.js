@@ -2,7 +2,6 @@ import React from 'react'
 import { ArrowRightIcon, StarIcon } from '@heroicons/react/24/solid'
 import { Link } from 'react-router-dom'
 const CheckoutCart = ({ data }) => {
-  console.log(data.title)
   let totalNights = 2
   let sub_total = 150
   let total = 200

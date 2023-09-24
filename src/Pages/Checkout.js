@@ -10,7 +10,7 @@ import CheckoutCart from '../Components/CheckoutCart';
 const Checkout = () => {
     const [selectedIndex, setSelectedIndex] = useState(0)
 
-    const checkoutData = {
+    const homeData = {
         _id: '60kh586ldt25',
         location: 'Dhaka,Bangladesh',
         title: 'Huge appartment with 4 bedroom',
@@ -22,7 +22,7 @@ const Checkout = () => {
             image: 'https://i.ibb.co/6JM5VJF/photo-1633332755192-727a05c4013d.jpg',
             email: 'uk@gmail.com',
         },
-        price: 50,
+        price: 60,
         total_guest: 4,
         bedrooms: 2,
         bathrooms: 2,
@@ -31,6 +31,17 @@ const Checkout = () => {
     }
 
     const { user } = useContext(AuthContext)
+
+    const [bookingData, setBookingData] = useState({
+        homeId: homeData._id,
+        hostEmail: homeData?.host?.email,
+        message: '',
+        totalPrice: parseFloat(homeData.price) + 31,
+        guestEmail: user?.email,
+    })
+    const handleBooking = () => {
+        console.log(bookingData)
+    }
 
     return (
         <div className='md:flex gap-5 items-start justify-between sm:mx-10 md:mx-20 lg:mx-40 py-8'>
@@ -91,14 +102,23 @@ const Checkout = () => {
                     </Tab.List>
                     <Tab.Panels>
                         <Tab.Panel>
-                            <ReviewHouse></ReviewHouse>
+                            <ReviewHouse setSelectedIndex={setSelectedIndex} />
                         </Tab.Panel>
-                        <Tab.Panel><WhosComing></WhosComing></Tab.Panel>
-                        <Tab.Panel><Payment></Payment></Tab.Panel>
+                        <Tab.Panel>
+                            <WhosComing
+                                setSelectedIndex={setSelectedIndex}
+                                host={homeData?.host}
+                                bookingData={bookingData}
+                                setBookingData={setBookingData}
+                            />
+                        </Tab.Panel>
+                        <Tab.Panel>
+                            <Payment handleBooking={handleBooking} />
+                        </Tab.Panel>
                     </Tab.Panels>
                 </Tab.Group>
             </div>
-            <CheckoutCart data={checkoutData} />
+            <CheckoutCart data={homeData} />
         </div>
     );
 };
