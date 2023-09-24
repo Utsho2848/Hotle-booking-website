@@ -6,6 +6,8 @@ import ReviewHouse from '../Components/ReviewHouse';
 import WhosComing from '../Components/WhosComing';
 import Payment from '../Components/Payment';
 import CheckoutCart from '../Components/CheckoutCart';
+import { saveBookings } from '../api/bookings';
+import { toast } from 'react-hot-toast'
 
 const Checkout = () => {
     const [selectedIndex, setSelectedIndex] = useState(0)
@@ -41,10 +43,16 @@ const Checkout = () => {
     })
     const handleBooking = () => {
         console.log(bookingData)
+        saveBookings(bookingData)
+            .then(data => {
+                toast.success('Booking confirmed...!!')
+                console.log(data)
+            })
+            .catch(err => console.log(err))
     }
 
     return (
-        <div className='md:flex gap-5 items-start justify-between sm:mx-10 md:mx-20 lg:mx-40 py-8'>
+        <div className='lg:flex gap-5 items-start justify-between sm:mx-10 md:mx-20 lg:mx-40 py-8'>
             <div className="w-full max-w-md px-2 py-16 sm:px-0">
                 <Tab.Group manual selectedIndex={selectedIndex} onChange={setSelectedIndex}>
                     <Tab.List className='flex'>
@@ -64,41 +72,43 @@ const Checkout = () => {
                             </span>
 
                         </div>
-                        <Tab className="container flex items-center px-6 py-4 mx-auto  whitespace-nowrap">
+                        <div className='lg:flex'>
+                            <Tab className="container flex items-center px-2 py-4 mx-auto overflow-x-auto whitespace-nowrap">
 
-                            <a href="#" className="text-gray-600 dark:text-gray-200 hover:underline hover:text-blue-500 font-semibold">
-                                1. Review House Rules
-                            </a>
+                                <a href="#" className="text-gray-600 hover:underline ">
+                                    1. Review House Rules
+                                </a>
 
-                            <span className="mx-5 text-gray-500 dark:text-gray-300 rtl:-scale-x-100">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                                </svg>
-                            </span>
-                        </Tab>
-                        <Tab className="container flex items-center px-6 py-4 mx-auto  whitespace-nowrap">
+                                <span className="mx-5 text-gray-500 dark:text-gray-300 rtl:-scale-x-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                                    </svg>
+                                </span>
+                            </Tab>
+                            <Tab className="container flex items-center px-2 py-4 mx-auto overflow-x-auto whitespace-nowrap">
 
-                            <a href="#" className="text-gray-600 dark:text-gray-200 hover:underline hover:text-blue-500 font-semibold">
-                                2. Who's coming
-                            </a>
+                                <a href="#" className="text-gray-600 hover:underline">
+                                    2. Who's coming
+                                </a>
 
-                            <span className="mx-5 text-gray-500 dark:text-gray-300 rtl:-scale-x-100">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                                </svg>
-                            </span>
-                        </Tab>
-                        <Tab className="container flex items-center px-6 py-4 mx-auto  whitespace-nowrap">
-                            <a href="#" className="text-gray-600dark:text-gray-200 hover:underline hover:text-blue-500 font-semibold">
-                                3. Confirm and pay
-                            </a>
+                                <span className="mx-5 text-gray-500 dark:text-gray-300 rtl:-scale-x-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                                    </svg>
+                                </span>
+                            </Tab>
+                            <Tab className="container flex items-center px-2 py-4 mx-auto overflow-x-auto whitespace-nowrap">
+                                <a href="#" className="text-gray-600  hover:underline">
+                                    3. Confirm and pay
+                                </a>
 
-                            <span className="mx-5 text-gray-500 dark:text-gray-300 rtl:-scale-x-100">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                                </svg>
-                            </span>
-                        </Tab>
+                                <span className="mx-5 text-gray-500 dark:text-gray-300 rtl:-scale-x-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                                    </svg>
+                                </span>
+                            </Tab>
+                        </div>
                     </Tab.List>
                     <Tab.Panels>
                         <Tab.Panel>

@@ -25,6 +25,8 @@ async function run() {
 
     const usersCollection = client.db('aircncdb').collection('users')
 
+    const bookingCollection = client.db('aircncdb').collection('bookings')
+
     // Save email and  JWT generate
     app.put('/user/:email', async (req, res) => {
       const email = req.params.email
@@ -41,6 +43,13 @@ async function run() {
       })
       console.log(token)
       res.send({ result, token })
+    })
+    // save a booking
+    app.post('/bookings', async (req, res) => {
+      const bookingData = req.body
+      const result = await bookingCollection.insertOne(bookingData)
+      console.log(result)
+      res.send(result)
     })
 
     console.log('Database Connected...')
