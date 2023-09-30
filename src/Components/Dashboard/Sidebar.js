@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import { ArrowRightOnRectangleIcon, Bars3Icon } from '@heroicons/react/24/solid'
 import { AuthContext } from '../../contexts/AuthProvider';
 import PrimaryButton from '../Button/PrimaryButton';
+import AdminMenu from './AdminMenu';
+import HostMenu from './HostMenu';
+import UserMenu from './UserMenu';
 
-const Sidebar = () => {
+const Sidebar = ({ role, loading }) => {
     const { user, logout } = useContext(AuthContext)
     const [isActive, setIsActive] = useState('false')
     // sidebar toggle function
@@ -54,20 +57,21 @@ const Sidebar = () => {
                         </div>
                     </div>
                     {/* nav items */}
-                    {/* <div className='flex flex-col justify-between flex-1 mt-6'>
+                    <div className='flex flex-col justify-between flex-1 mt-6'>
                         <nav>
-                            {
-                                role && role !=='requested' ? (
+                            {/* {
+                                role && role !== 'requested' ? (
                                     <>
-                                    {
-                                        role==='admin' ? <AdminMenu/>:<HostMenu/>
-                                    }
+                                        {
+                                            role === 'admin' ? <AdminMenu /> : <HostMenu />
+                                        }
                                     </>
-                                ) : (<UserMenu/>)
-                            }
+                                ) : (<UserMenu />)
+                            } */}
+                            <UserMenu></UserMenu>
                         </nav>
 
-                    </div> */}
+                    </div>
                 </div>
                 <div>
                     <hr />
