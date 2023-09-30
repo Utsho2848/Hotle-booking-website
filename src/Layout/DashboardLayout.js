@@ -5,7 +5,9 @@ import Sidebar from '../Components/Dashboard/Sidebar';
 const DashboardLayout = () => {
     return (
         <div className=' container md:flex relative min-h-screen mx-auto'>
-            <Sidebar />
+            <div className="">
+                <Sidebar />
+            </div>
             <div className='flex-1'>
                 <div className='p-5'>
                     <Outlet />
